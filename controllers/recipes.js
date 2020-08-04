@@ -1,7 +1,8 @@
 const Recipes = require('../models').Recipes;
 
 const createRecipe = (req, res)=> {
-    Recipe.create(req.body, (err, createdRecipe) => {
+    req.body.userId = req.params.userId
+    Recipes.create(req.body, (err, createdRecipe) => {
         if(err){
             return res.status(500).json(err);
         }
@@ -10,7 +11,7 @@ const createRecipe = (req, res)=> {
 }
 
 const showRecipe = (req, res) => {
-    Recipe.findById(req.params.id, (err, foundRecipe) => {
+    Recipes.findById(req.params.id, (err, foundRecipe) => {
         if(err) {
             return res.status(500).json(err);
         }
@@ -19,7 +20,7 @@ const showRecipe = (req, res) => {
 }
 
 const showAllRecipes = (req, res) => {
-    Recipe.find({}, (err, foundAllRecipes) => {
+    Recipes.find({}, (err, foundAllRecipes) => {
         if(err){
             return res.status(500).json(err);
         }
@@ -28,7 +29,7 @@ const showAllRecipes = (req, res) => {
 }
 
 const deleteRecipe = (req, res)=>{
-	Recipe.findByIdAndRemove(req.params.id, (err, deletedRecipe) => {
+	Recipes.findByIdAndRemove(req.params.id, (err, deletedRecipe) => {
 		if(err){
 			return res.status(500).json(err);
 		}
@@ -37,13 +38,24 @@ const deleteRecipe = (req, res)=>{
 }
 
 const editRecipe = (req, res)=>{
-	Recipe.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, updatedRecipe) => {
+	Recipes.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, updatedRecipe) => {
 		if(err){
 			return res.status(500).json(err);
 		}
 		res.status(200).json(updatedRecipe);
 	});
 }
+
+const showRecipebyUser = (req, res) => {
+    Recipes.find({userId: req.params.userId}, (err, foundRecipe) => {
+        if(err){
+            return res.status(500).json(err);
+		}
+		res.status(200).json(foundRecipe);
+	});
+        }
+
+
 
 
 
@@ -55,5 +67,6 @@ module.exports = {
     showRecipe,
     showAllRecipes,
     deleteRecipe,
-    editRecipe
+    editRecipe,
+    showRecipebyUser
 }

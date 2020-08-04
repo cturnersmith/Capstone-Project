@@ -10,4 +10,7 @@ router.get('/:id', ctrl.user.showUser);
 router.delete('/:id', ctrl.user.deleteUser);
 router.put('/:id', ctrl.user.updateUser);
 
+
+
+
 module.exports = router;
